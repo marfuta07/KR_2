@@ -1,4 +1,3 @@
-import pytest
 from src.airplane import Airplane
 from main import get_top_n_by_altitude, filter_by_registration_country
 

@@ -1,8 +1,6 @@
 import pytest
 from unittest.mock import patch
-
-from typing import List, Dict, Any, Optional
-from src.air_api import AirspaceAPI, BaseAirspaceAPI
+from src.air_api import AirspaceAPI
 
 
 @pytest.fixture
