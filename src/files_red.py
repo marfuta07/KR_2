@@ -66,7 +66,7 @@ class JsonStorage(StorageConnector):
                     )
                     for r in raw_list
                 ]
-        except (json.JSONDecodeError, FileNotFoundError, KeyError):
+        except json.JSONDecodeError, FileNotFoundError, KeyError:
             # Если файл битый или пустой — начинаем с чистого листа
             self._data = []
 
@@ -137,48 +137,66 @@ class CsvStorage(StorageConnector):
     def __init__(self, filepath: str = "airplanes.csv") -> None:
         self.filepath = filepath
 
-    def add_airplane(self, airplane: Airplane) -> None: raise NotImplementedError
+    def add_airplane(self, airplane: Airplane) -> None:
+        raise NotImplementedError
 
-    def add_airplanes(self, airplanes: List[Airplane]) -> None: raise NotImplementedError
+    def add_airplanes(self, airplanes: List[Airplane]) -> None:
+        raise NotImplementedError
 
-    def get_all(self) -> List[Airplane]: raise NotImplementedError
+    def get_all(self) -> List[Airplane]:
+        raise NotImplementedError
 
-    def get_by_country(self, country: str) -> List[Airplane]: raise NotImplementedError
+    def get_by_country(self, country: str) -> List[Airplane]:
+        raise NotImplementedError
 
-    def remove_by_icao24(self, icao24: str) -> bool: raise NotImplementedError
+    def remove_by_icao24(self, icao24: str) -> bool:
+        raise NotImplementedError
 
-    def clear_all(self) -> None: raise NotImplementedError
+    def clear_all(self) -> None:
+        raise NotImplementedError
 
 
 class ExcelStorage(StorageConnector):
     def __init__(self, filepath: str = "airplanes.xlsx") -> None:
         self.filepath = filepath
 
-    def add_airplane(self, airplane: Airplane) -> None: raise NotImplementedError
+    def add_airplane(self, airplane: Airplane) -> None:
+        raise NotImplementedError
 
-    def add_airplanes(self, airplanes: List[Airplane]) -> None: raise NotImplementedError
+    def add_airplanes(self, airplanes: List[Airplane]) -> None:
+        raise NotImplementedError
 
-    def get_all(self) -> List[Airplane]: raise NotImplementedError
+    def get_all(self) -> List[Airplane]:
+        raise NotImplementedError
 
-    def get_by_country(self, country: str) -> List[Airplane]: raise NotImplementedError
+    def get_by_country(self, country: str) -> List[Airplane]:
+        raise NotImplementedError
 
-    def remove_by_icao24(self, icao24: str) -> bool: raise NotImplementedError
+    def remove_by_icao24(self, icao24: str) -> bool:
+        raise NotImplementedError
 
-    def clear_all(self) -> None: raise NotImplementedError
+    def clear_all(self) -> None:
+        raise NotImplementedError
 
 
 class TxtStorage(StorageConnector):
     def __init__(self, filepath: str = "airplanes.txt") -> None:
         self.filepath = filepath
 
-    def add_airplane(self, airplane: Airplane) -> None: raise NotImplementedError
+    def add_airplane(self, airplane: Airplane) -> None:
+        raise NotImplementedError
 
-    def add_airplanes(self, airplanes: List[Airplane]) -> None: raise NotImplementedError
+    def add_airplanes(self, airplanes: List[Airplane]) -> None:
+        raise NotImplementedError
 
-    def get_all(self) -> List[Airplane]: raise NotImplementedError
+    def get_all(self) -> List[Airplane]:
+        raise NotImplementedError
 
-    def get_by_country(self, country: str) -> List[Airplane]: raise NotImplementedError
+    def get_by_country(self, country: str) -> List[Airplane]:
+        raise NotImplementedError
 
-    def remove_by_icao24(self, icao24: str) -> bool: raise NotImplementedError
+    def remove_by_icao24(self, icao24: str) -> bool:
+        raise NotImplementedError
 
-    def clear_all(self) -> None: raise NotImplementedError
+    def clear_all(self) -> None:
+        raise NotImplementedError

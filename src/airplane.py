@@ -2,6 +2,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Optional, List
 
+
 @dataclass
 class Airplane:
     icao24: str
@@ -24,7 +25,9 @@ class Airplane:
             raise ValueError("Атрибут origin_country должен быть непустой строкой.")
         if self.velocity is None or self.velocity < 0:
             raise ValueError("Атрибут velocity должен быть неотрицательным числом.")
-        if self.geo_altitude is not None and (not isinstance(self.geo_altitude, (int, float)) or self.geo_altitude < 0):
+        if self.geo_altitude is not None and (
+            not isinstance(self.geo_altitude, (int, float)) or self.geo_altitude < 0
+        ):
             raise ValueError("Атрибут geo_altitude должен быть неотрицательным числом или None.")
 
     @classmethod
@@ -97,6 +100,8 @@ class Airplane:
     def __str__(self) -> str:
         status = "на земле" if self.on_ground else "в полёте"
         alt_str = f"{self.geo_altitude:.1f} м" if self.geo_altitude is not None else "высота неизвестна"
-        return (f"Airplane(ICAO24={self.icao24}, callsign={self.callsign}, "
-                f"country={self.origin_country}, velocity={self.velocity:.1f} м/с, "
-                f"{alt_str}, статус={status})")
+        return (
+            f"Airplane(ICAO24={self.icao24}, callsign={self.callsign}, "
+            f"country={self.origin_country}, velocity={self.velocity:.1f} м/с, "
+            f"{alt_str}, статус={status})"
+        )

@@ -46,6 +46,7 @@ def get_top_n_by_altitude(planes: List[Airplane], n: int) -> List[Airplane]:
     None трактуется как «неизвестно» и считается ниже всех.
     Сортировка устойчивая, порядок среди равных высот сохраняется.
     """
+
     def altitude_key(p: Airplane):
         # Если высоты нет — считаем её минимально возможной
         return p.geo_altitude if p.geo_altitude is not None else -1
