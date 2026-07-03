@@ -51,7 +51,7 @@ class AirspaceAPI(BaseAirspaceAPI):
             return None
         try:
             return [float(x) for x in bbox]
-        except ValueError, TypeError:
+        except ValueError as TypeError:
             return None
 
     def get_airplanes_in_bounds(self, lamin: float, lamax: float, lomin: float, lomax: float) -> List[Dict[str, Any]]:
