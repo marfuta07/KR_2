@@ -14,7 +14,7 @@ def test_airplane_creation_valid():
         longitude=37.61,
         on_ground=False,
         heading=90.0,
-        baro_altitude=9800
+        baro_altitude=9800,
     )
     assert plane.icao24 == "A1B2C3"
     assert plane.callsign == "FLY123"
@@ -33,7 +33,7 @@ def test_airplane_icao24_required_and_non_empty():
             longitude=0.0,
             on_ground=False,
             heading=0.0,
-            baro_altitude=0
+            baro_altitude=0,
         )
 
     with pytest.raises(ValueError, match="Атрибут icao24 должен быть непустой строкой"):
@@ -47,7 +47,7 @@ def test_airplane_icao24_required_and_non_empty():
             longitude=0.0,
             on_ground=False,
             heading=0.0,
-            baro_altitude=0
+            baro_altitude=0,
         )
 
 
@@ -64,7 +64,7 @@ def test_airplane_callsign_validation():
             longitude=0.0,
             on_ground=False,
             heading=0.0,
-            baro_altitude=0
+            baro_altitude=0,
         )
 
     with pytest.raises(ValueError, match="Атрибут callsign должен быть непустой строкой"):
@@ -78,7 +78,7 @@ def test_airplane_callsign_validation():
             longitude=0.0,
             on_ground=False,
             heading=0.0,
-            baro_altitude=0
+            baro_altitude=0,
         )
 
 

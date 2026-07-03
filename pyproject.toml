@@ -19,6 +19,7 @@ build-backend = "poetry.core.masonry.api"
 [tool.black]
 # Максимальная длина строки
 line-length = 119
+target-version = ["py314"]
 # Файлы и папки, которые не нужно форматировать
 exclude = '''
 (
@@ -46,4 +47,7 @@ lint = [
     "mypy (>=2.1.0,<3.0.0)",
     "black (>=26.5.1,<27.0.0)",
     "isort (>=8.0.1,<9.0.0)"
+]
+dev = [
+    "pytest (>=9.1.1,<10.0.0)"
 ]
