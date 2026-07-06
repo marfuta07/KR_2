@@ -2,7 +2,6 @@ import json
 from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import List
-
 from src.airplane import Airplane
 
 
@@ -33,7 +32,7 @@ class StorageConnector(ABC):
 
 
 class JsonStorage(StorageConnector):
-    def __init__(self):
+    def __init__(self)->None:
         self.filename = "airplanes.json"
         self.base_dir = "data"
         self._data: List[Airplane] = []
@@ -66,7 +65,7 @@ class JsonStorage(StorageConnector):
                     )
                     for r in raw_list
                 ]
-        except json.JSONDecodeError, FileNotFoundError, KeyError:
+        except (json.JSONDecodeError, FileNotFoundError, KeyError) as e:
             # Если файл битый или пустой — начинаем с чистого листа
             self._data = []
 
