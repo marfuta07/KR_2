@@ -2,10 +2,11 @@ import pytest
 from src.airplane import Airplane
 from src.files_red import JsonStorage, StorageConnector
 from main import get_top_n_by_altitude, filter_by_registration_country
-
+from typing import Generator, List
+from pathlib import Path
 
 @pytest.fixture
-def tmp_storage(tmp_path):
+def tmp_storage(tmp_path: Path) -> Generator[StorageConnector, None, None]:
     """
     Фикстура: создаёт чистое хранилище во временной папке.
     Гарантирует, что каждый тест начинается с пустого JSON и пустой памяти.
@@ -27,7 +28,7 @@ def tmp_storage(tmp_path):
     yield storage
 
 
-def test_airplane_validation_raises_on_empty_callsign():
+def test_airplane_validation_raises_on_empty_callsign()->None:
     """Валидация: пустой callsign должен вызывать ValueError."""
     with pytest.raises(ValueError, match="callsign"):
         Airplane(
@@ -39,7 +40,7 @@ def test_airplane_validation_raises_on_empty_callsign():
         )
 
 
-def test_airplane_validation_allows_none_altitude():
+def test_airplane_validation_allows_none_altitude()->None:
     """Валидация: geo_altitude может быть None."""
     plane = Airplane(
         icao24="TEST456",
@@ -51,7 +52,7 @@ def test_airplane_validation_allows_none_altitude():
     assert plane.geo_altitude is None
 
 
-def test_json_storage_add_and_get(tmp_storage: StorageConnector):
+def test_json_storage_add_and_get(tmp_storage: StorageConnector)->None:
     """Добавление и получение самолётов работают корректно."""
     p1 = Airplane("A1", "CALL1", "USA", 300.0, 11000)
     p2 = Airplane("A2", "CALL2", "Canada", 280.0, 9000)
@@ -66,7 +67,7 @@ def test_json_storage_add_and_get(tmp_storage: StorageConnector):
     assert any(p.icao24 == "A2" for p in all_planes)
 
 
-def test_json_storage_duplicate_prevention(tmp_storage: StorageConnector):
+def test_json_storage_duplicate_prevention(tmp_storage: StorageConnector)->None:
     """Защита от дублей по icao24 работает."""
     p = Airplane("DUPE", "DUPECALL", "UK", 200.0, 8000)
 
@@ -77,7 +78,7 @@ def test_json_storage_duplicate_prevention(tmp_storage: StorageConnector):
     assert len(tmp_storage.get_all()) == 1
 
 
-def test_json_storage_remove_and_clear(tmp_storage: StorageConnector):
+def test_json_storage_remove_and_clear(tmp_storage: StorageConnector)->None:
     """Удаление по icao24 и полная очистка работают."""
     p = Airplane("REMOVE", "REMOVECALL", "France", 220.0, 7000)
     tmp_storage.add_airplane(p)
@@ -93,7 +94,7 @@ def test_json_storage_remove_and_clear(tmp_storage: StorageConnector):
     assert len(tmp_storage.get_all()) == 0
 
 
-def test_top_n_sorting_desc_by_altitude():
+def test_top_n_sorting_desc_by_altitude()->None:
     """Топ‑N по высоте: сортировка по убыванию, None считается самым низким."""
     planes = [
         Airplane("P1", "C1", "Spain", 100.0, 5000),
@@ -107,7 +108,7 @@ def test_top_n_sorting_desc_by_altitude():
     assert [p.icao24 for p in top_2] == ["P2", "P4"]
 
 
-def test_filter_by_country_case_insensitive():
+def test_filter_by_country_case_insensitive()->None:
     """Фильтрация по стране: регистронезависимая."""
     planes = [
         Airplane("X1", "X1CALL", "Brazil", 200.0, 4000),
@@ -120,7 +121,7 @@ def test_filter_by_country_case_insensitive():
     assert all(p.origin_country.lower() == "brazil" for p in filtered)
 
 
-def test_empty_filter_returns_empty_list():
+def test_empty_filter_returns_empty_list()->None:
     """Фильтрация: если страна не найдена, возвращается пустой список."""
     planes = [Airplane("Y1", "Y1CALL", "Japan", 230.0, 3000)]
     filtered = filter_by_registration_country(planes, "NonExistentCountry")

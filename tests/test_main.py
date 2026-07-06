@@ -2,7 +2,7 @@ from src.airplane import Airplane
 from main import get_top_n_by_altitude, filter_by_registration_country
 
 
-def test_get_top_n_sorting_desc_by_altitude():
+def test_get_top_n_sorting_desc_by_altitude()->None:
     """Сортировка по убыванию высоты: самые высокие — в начале."""
     planes = [
         Airplane("P1", "C1", "RU", 100.0, 5000),
@@ -13,7 +13,7 @@ def test_get_top_n_sorting_desc_by_altitude():
     assert [p.icao24 for p in top_2] == ["P2", "P3"]
 
 
-def test_get_top_n_with_none_altitude():
+def test_get_top_n_with_none_altitude()->None:
     """None считается самым низким и идёт в конце (или не попадает в топ)."""
     planes = [
         Airplane("P1", "C1", "RU", 100.0, None),
@@ -25,12 +25,12 @@ def test_get_top_n_with_none_altitude():
     assert [p.icao24 for p in top_2] == ["P2", "P3"]
 
 
-def test_get_top_n_empty_list():
+def test_get_top_n_empty_list()->None:
     """Если список пуст — возвращается пустой список."""
     assert get_top_n_by_altitude([], 3) == []
 
 
-def test_get_top_n_n_greater_than_count():
+def test_get_top_n_n_greater_than_count()->None:
     """Если запрашиваем больше, чем есть — возвращаются все."""
     planes = [Airplane("P1", "C1", "RU", 100.0, 5000)]
     result = get_top_n_by_altitude(planes, 5)
@@ -38,7 +38,7 @@ def test_get_top_n_n_greater_than_count():
     assert result[0].icao24 == "P1"
 
 
-def test_filter_by_country_case_insensitive():
+def test_filter_by_country_case_insensitive()->None:
     """Фильтрация по стране: регистронезависимая."""
     planes = [
         Airplane("X1", "X1CALL", "Brazil", 200.0, 4000),
@@ -50,13 +50,13 @@ def test_filter_by_country_case_insensitive():
     assert all(p.origin_country.lower() == "brazil" for p in filtered)
 
 
-def test_filter_by_country_no_matches():
+def test_filter_by_country_no_matches()->None:
     """Если страна не найдена — пустой список."""
     planes = [Airplane("Y1", "Y1CALL", "Japan", 230.0, 3000)]
     filtered = filter_by_registration_country(planes, "NonExistentCountry")
     assert filtered == []
 
 
-def test_filter_by_country_empty_input():
+def test_filter_by_country_empty_input()->None:
     """Пустой входной список — пустой результат."""
     assert filter_by_registration_country([], "Russia") == []
