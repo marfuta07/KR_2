@@ -1,4 +1,3 @@
-import sys
 from typing import List, Optional
 from src.air_api import AirspaceAPI
 from src.airplane import Airplane
