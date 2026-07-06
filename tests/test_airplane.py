@@ -2,7 +2,7 @@ import pytest
 from src.airplane import Airplane
 
 
-def test_airplane_creation_valid():
+def test_airplane_creation_valid()->None:
     """Обычная корректная инициализация."""
     plane = Airplane(
         icao24="A1B2C3",
@@ -20,7 +20,7 @@ def test_airplane_creation_valid():
     assert plane.callsign == "FLY123"
 
 
-def test_airplane_icao24_required_and_non_empty():
+def test_airplane_icao24_required_and_non_empty()->None:
     """icao24 — обязательный непустой строковый атрибут."""
     with pytest.raises(ValueError, match="Атрибут icao24 должен быть непустой строкой"):
         Airplane(
@@ -51,7 +51,7 @@ def test_airplane_icao24_required_and_non_empty():
         )
 
 
-def test_airplane_callsign_validation():
+def test_airplane_callsign_validation()->None:
     """callsign должен быть непустой строкой — проверяем ошибку."""
     with pytest.raises(ValueError, match="Атрибут callsign должен быть непустой строкой"):
         Airplane(
@@ -82,7 +82,7 @@ def test_airplane_callsign_validation():
         )
 
 
-def test_airplane_str_representation():
+def test_airplane_str_representation()->None:
     """Проверка __str__."""
     plane = Airplane("A1B2C3", "FLY123", "Russia", 250.0, 10000, 55.75, 37.61, False, 90.0, 9800)
     s = str(plane)
@@ -91,7 +91,7 @@ def test_airplane_str_representation():
     assert "FLY123" in s or "Russia" in s
 
 
-def test_airplane_repr_representation():
+def test_airplane_repr_representation()->None:
     """Проверка __repr__."""
     plane = Airplane("A1B2C3", "FLY123", "RU", 200.0, 8000, 50.0, 30.0, False, 45.0, 7500)
     r = repr(plane)
@@ -100,7 +100,7 @@ def test_airplane_repr_representation():
     assert "A1B2C3" in r
 
 
-def test_airplane_equality():
+def test_airplane_equality()->None:
     """Равенство объектов (если реализован __eq__)."""
     p1 = Airplane("A1B2C3", "FLY1", "RU", 200.0, 10000, 0.0, 0.0, False, 0.0, 0)
     p2 = Airplane("A1B2C3", "FLY1", "RU", 200.0, 10000, 0.0, 0.0, False, 0.0, 0)
@@ -113,7 +113,7 @@ def test_airplane_equality():
         assert p1 is not p2
 
 
-def test_airplane_different_icao_not_equal():
+def test_airplane_different_icao_not_equal()->None:
     """Разные icao24 → не равны."""
     p1 = Airplane("A1B2C3", "FLY1", "RU", 200.0, 10000, 0.0, 0.0, False, 0.0, 0)
     p2 = Airplane("D4E5F6", "FLY2", "DE", 210.0, 11000, 0.0, 0.0, True, 0.0, 0)

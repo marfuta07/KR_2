@@ -1,16 +1,16 @@
 import pytest
 from unittest.mock import patch
 from src.air_api import AirspaceAPI
-
+from typing import Any, List, Dict
 
 @pytest.fixture
-def mock_response_json():
+def mock_response_json()->List[Dict[str, Any]]:
     """Возвращает JSON, который реально приходит от Nominatim (список объектов)."""
     return [{"boundingbox": ["50.0", "60.0", "30.0", "40.0"], "display_name": "Russia", "type": "country"}]
 
 
 @pytest.fixture
-def mock_opensky_states():
+def mock_opensky_states()->List[List[Any]]:
     """
     Сырые данные от OpenSky: список списков.
     Формат: [icao24, callsign, origin_country, time_position, last_contact,
@@ -62,17 +62,17 @@ def mock_opensky_states():
 # --- Тесты валидации User-Agent (как валидация в Product.__init__) ---
 
 
-def test_airspace_api_invalid_user_agent_empty():
+def test_airspace_api_invalid_user_agent_empty()->None:
     with pytest.raises(ValueError, match="не должен содержать пробелов и не может быть пустым"):
         AirspaceAPI(user_agent="")
 
 
-def test_airspace_api_invalid_user_agent_with_space():
+def test_airspace_api_invalid_user_agent_with_space()->None:
     with pytest.raises(ValueError, match="не должен содержать пробелов и не может быть пустым"):
         AirspaceAPI(user_agent="flight tracker")
 
 
-def test_airspace_api_valid_user_agent():
+def test_airspace_api_valid_user_agent()->None:
     api = AirspaceAPI(user_agent="my-app/1.0")
     assert api.user_agent == "my-app/1.0"
     assert "User-Agent" in api._headers
@@ -82,7 +82,7 @@ def test_airspace_api_valid_user_agent():
 
 
 @patch.object(AirspaceAPI, "_request_json")
-def test_get_country_boundingbox_success(mock_request):
+def test_get_country_boundingbox_success(mock_request:Any)->None:
     mock_request.return_value = [{"boundingbox": ["10.0", "20.0", "30.0", "40.0"]}]
     api = AirspaceAPI("test-app/1.0")
     bbox = api.get_country_boundingbox("Russia")
@@ -92,14 +92,14 @@ def test_get_country_boundingbox_success(mock_request):
 
 
 @patch.object(AirspaceAPI, "_request_json")
-def test_get_country_boundingbox_empty_response(mock_request):
+def test_get_country_boundingbox_empty_response(mock_request:Any)->None:
     mock_request.return_value = []
     api = AirspaceAPI("test-app/1.0")
     assert api.get_country_boundingbox("UnknownCountry") is None
 
 
 @patch.object(AirspaceAPI, "_request_json")
-def test_get_country_boundingbox_invalid_bbox_format(mock_request):
+def test_get_country_boundingbox_invalid_bbox_format(mock_request:Any)->None:
     # boundingbox есть, но не 4 элемента
     mock_request.return_value = [{"boundingbox": ["1", "2", "3"]}]
     api = AirspaceAPI("test-app/1.0")
@@ -110,7 +110,7 @@ def test_get_country_boundingbox_invalid_bbox_format(mock_request):
 
 
 @patch.object(AirspaceAPI, "_request_json")
-def test_get_airplanes_in_bounds_parsing(mock_request, mock_opensky_states):
+def test_get_airplanes_in_bounds_parsing(mock_request:Any, mock_opensky_states:List[List[Any]])->None:
     mock_request.return_value = {"states": mock_opensky_states}
     api = AirspaceAPI("test-app/1.0")
     planes = api.get_airplanes_in_bounds(50.0, 60.0, 30.0, 40.0)
@@ -127,14 +127,14 @@ def test_get_airplanes_in_bounds_parsing(mock_request, mock_opensky_states):
 
 
 @patch.object(AirspaceAPI, "_request_json")
-def test_get_airplanes_in_bounds_empty_states(mock_request):
+def test_get_airplanes_in_bounds_empty_states(mock_request:Any)->None:
     mock_request.return_value = {"states": []}
     api = AirspaceAPI("test-app/1.0")
     assert api.get_airplanes_in_bounds(0, 1, 0, 1) == []
 
 
 @patch.object(AirspaceAPI, "_request_json")
-def test_get_airplanes_in_bounds_invalid_state_format(mock_request):
+def test_get_airplanes_in_bounds_invalid_state_format(mock_request:Any)->None:
     # state — не список или слишком короткий
     mock_request.return_value = {"states": [["short"]]}
     api = AirspaceAPI("test-app/1.0")
@@ -147,7 +147,7 @@ def test_get_airplanes_in_bounds_invalid_state_format(mock_request):
 
 @patch.object(AirspaceAPI, "get_country_boundingbox")
 @patch.object(AirspaceAPI, "get_airplanes_in_bounds")
-def test_get_aeroplanes_in_country_success(mock_bounds, mock_bbox):
+def test_get_aeroplanes_in_country_success(mock_bounds:Any, mock_bbox:Any)->None:
     mock_bbox.return_value = [50.0, 60.0, 30.0, 40.0]
     expected_planes = [{"icao24": "TEST"}]
     mock_bounds.return_value = expected_planes
@@ -161,7 +161,7 @@ def test_get_aeroplanes_in_country_success(mock_bounds, mock_bbox):
 
 
 @patch.object(AirspaceAPI, "get_country_boundingbox")
-def test_get_aeroplanes_in_country_bbox_not_found(mock_bbox):
+def test_get_aeroplanes_in_country_bbox_not_found(mock_bbox:Any)->None:
     mock_bbox.return_value = None
     api = AirspaceAPI("test-app/1.0")
 
@@ -173,7 +173,7 @@ def test_get_aeroplanes_in_country_bbox_not_found(mock_bbox):
 
 
 @patch("src.air_api.requests.get")
-def test_request_json_network_error(mock_get):
+def test_request_json_network_error(mock_get:Any)->None:
     from requests.exceptions import RequestException
 
     mock_get.side_effect = RequestException("Connection failed")
